@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 import { Current } from 'src/app/models/current';
+import { Timezone } from 'src/app/models/timezone';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -10,9 +11,14 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class WeatheWidgetComponent implements OnInit {
   current: Current;
+  timezone: Timezone;
   weather: any;
-  weatherDataLoaded: boolean = false;
   dateTime: Date;
+
+  weatherDataLoaded: boolean = false;
+  currentDataLoaded: boolean = false;
+  timezoneDataLoaded: boolean = false;
+
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit(): void {
@@ -29,12 +35,23 @@ export class WeatheWidgetComponent implements OnInit {
         .getWeatherData(latitude, longitude)
         .subscribe((response) => {
           this.weather = response;
-          let { humidity, pressure, sunrise, sunset, wind_speed } =
-            this.weather.current;
-          this.current = { humidity, pressure, sunrise, sunset, wind_speed };
           this.weatherDataLoaded = true;
+          this.getCurrentWeather();
+          this.getTimezone();
           console.log(response);
         });
     });
+  }
+
+  getCurrentWeather() {
+    let { humidity, pressure, sunrise, sunset, wind_speed } =
+      this.weather.current;
+    this.current = { humidity, pressure, sunrise, sunset, wind_speed };
+    this.currentDataLoaded = true;
+  }
+
+  getTimezone() {
+    this.timezone = this.weather.timezone;
+    this.timezoneDataLoaded = true;
   }
 }

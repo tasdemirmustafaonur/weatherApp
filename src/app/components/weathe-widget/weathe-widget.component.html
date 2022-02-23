@@ -6,7 +6,11 @@
         }}<span id="am-pm">{{ dateTime | date: "a" }}</span>
       </div>
       <div id="date" class="date">{{ dateTime | date: "EEEE, d MMMM" }}</div>
-      <div id="currentWeatherItems" class="others">
+      <div
+        *ngIf="currentDataLoaded == true"
+        id="currentWeatherItems"
+        class="others"
+      >
         <div class="weather-item">
           <div>Humidity</div>
           <div>{{ current.humidity }}%</div>
@@ -30,7 +34,9 @@
       </div>
     </div>
     <div class="place-container">
-      <div id="timeZone" class="time-zone">{{ weather.timezone }}</div>
+      <div *ngIf="timezoneDataLoaded == true" id="timeZone" class="time-zone">
+        {{ timezone }}
+      </div>
       <div id="location" class="location">
         {{ weather.lat }}N {{ weather.lon }}E
       </div>
