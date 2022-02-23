@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { timer } from 'rxjs';
 import { Current } from 'src/app/models/current';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -11,10 +12,13 @@ export class WeatheWidgetComponent implements OnInit {
   current: Current;
   weather: any;
   weatherDataLoaded: boolean = false;
-  dateObj: number = Date.now();
+  dateTime: Date;
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit(): void {
+    timer(0, 1000).subscribe(() => {
+      this.dateTime = new Date();
+    });
     this.getWeatherData();
   }
 
