@@ -11,6 +11,7 @@ export class WeatheWidgetComponent implements OnInit {
   current: Current;
   weather: any;
   weatherDataLoaded: boolean = false;
+  dateObj: number = Date.now();
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit(): void {
@@ -18,14 +19,17 @@ export class WeatheWidgetComponent implements OnInit {
   }
 
   getWeatherData() {
-    navigator.geolocation.getCurrentPosition((success) => {
+    navigator.geolocation.watchPosition((success) => {
       let { latitude, longitude } = success.coords;
       this.weatherService
         .getWeatherData(latitude, longitude)
         .subscribe((response) => {
           this.weather = response;
-          this.current = this.weather.current;
+          let { humidity, pressure, sunrise, sunset, wind_speed } =
+            this.weather.current;
+          this.current = { humidity, pressure, sunrise, sunset, wind_speed };
           this.weatherDataLoaded = true;
+          console.log(response);
         });
     });
   }

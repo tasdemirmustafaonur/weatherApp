@@ -1,34 +1,39 @@
-<div class="container">
+<div *ngIf="weatherDataLoaded == true" class="container">
   <div class="current-info">
     <div class="date-container">
-      <div id="time" class="time">09:17<span id="am-pm">PM</span></div>
-      <div id="date" class="date">Tuesday, 22 Feb</div>
+      <div id="time" class="time">
+        {{ dateObj | date: "h:mm"
+        }}<span id="am-pm">{{ dateObj | date: "a" }}</span>
+      </div>
+      <div id="date" class="date">{{ dateObj | date: "EEEE, d MMMM" }}</div>
       <div id="currentWeatherItems" class="others">
         <div class="weather-item">
-          <div>Humudity</div>
-          <div>69%</div>
+          <div>Humidity</div>
+          <div>{{ current.humidity }}%</div>
         </div>
         <div class="weather-item">
-          <div>Humudity</div>
-          <div>69%</div>
+          <div>Pressure</div>
+          <div>{{ current.pressure }}</div>
         </div>
         <div class="weather-item">
-          <div>Humudity</div>
-          <div>69%</div>
+          <div>Wind Speed</div>
+          <div>{{ current.wind_speed }}</div>
         </div>
         <div class="weather-item">
-          <div>Humudity</div>
-          <div>69%</div>
+          <div>Sunrise</div>
+          <div>{{ current.sunrise * 1000 | date: "HH:mm a" }}</div>
         </div>
         <div class="weather-item">
-          <div>Humudity</div>
-          <div>69%</div>
+          <div>Sunset</div>
+          <div>{{ current.sunset * 1000 | date: "HH:mm a" }}</div>
         </div>
       </div>
     </div>
     <div class="place-container">
-      <div id="timeZone" class="time-zone">Şehir</div>
-      <div id="location" class="location">GeoLocation</div>
+      <div id="timeZone" class="time-zone">{{ weather.timezone }}</div>
+      <div id="location" class="location">
+        {{ weather.lat }}N {{ weather.lon }}E
+      </div>
     </div>
   </div>
 </div>
