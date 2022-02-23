@@ -12,12 +12,15 @@ import { WeatherService } from 'src/app/services/weather.service';
 export class WeatheWidgetComponent implements OnInit {
   current: Current;
   timezone: Timezone;
+  daily: [];
   weather: any;
   dateTime: Date;
+  otherDays: any;
 
   weatherDataLoaded: boolean = false;
   currentDataLoaded: boolean = false;
   timezoneDataLoaded: boolean = false;
+  otherDaysDataLoaded: boolean = false;
 
   constructor(private weatherService: WeatherService) {}
 
@@ -38,20 +41,36 @@ export class WeatheWidgetComponent implements OnInit {
           this.weatherDataLoaded = true;
           this.getCurrentWeather();
           this.getTimezone();
+          this.getDailyWeather();
           console.log(response);
         });
     });
   }
 
   getCurrentWeather() {
-    let { humidity, pressure, sunrise, sunset, wind_speed } =
-      this.weather.current;
-    this.current = { humidity, pressure, sunrise, sunset, wind_speed };
+    let { humidity, pressure, sunrise, sunset, wind_speed, dt, weather, temp } =
+      this.weather.daily[0];
+    this.current = {
+      humidity,
+      pressure,
+      sunrise,
+      sunset,
+      wind_speed,
+      dt,
+      weather,
+      temp,
+    };
     this.currentDataLoaded = true;
   }
 
   getTimezone() {
     this.timezone = this.weather.timezone;
     this.timezoneDataLoaded = true;
+  }
+
+  getDailyWeather() {
+    this.weather.daily.shift();
+    this.otherDays = this.weather.daily;
+    this.otherDaysDataLoaded = true;
   }
 }

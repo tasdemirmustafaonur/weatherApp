@@ -43,20 +43,48 @@
     </div>
   </div>
 </div>
-<div class="future-forecast">
+<div *ngIf="currentDataLoaded == true" class="future-forecast">
   <div id="currentTemp" class="today">
     <img
-      src="http://openweathermap.org/img/wn/10d@2x.png"
+      src="http://openweathermap.org/img/wn/{{
+        current.weather[0].icon
+      }}@2x.png"
       alt="weather icon"
       class="w-icon"
     />
     <div class="other">
-      <div class="day">Monday</div>
-      <div class="temp">Night - 25.6&#176; C</div>
-      <div class="temp">Day - 35.6&#176; C</div>
+      <div class="day">{{ current.dt * 1000 | date: "E" }}</div>
+      <div class="temp">
+        Night - {{ (current.temp.night - 273.15).toFixed() }}&#176; C
+      </div>
+      <div class="temp">
+        Day - {{ (current.temp.day - 273.15).toFixed() }}&#176; C
+      </div>
     </div>
   </div>
-  <div id="weatherForecast" class="weather-forecast">
+  <div
+    *ngIf="otherDaysDataLoaded == true"
+    id="weatherForecast"
+    class="weather-forecast"
+  >
+    <div *ngFor="let otherDay of otherDays" class="weather-forecast-item">
+      <div class="day">{{ otherDay.dt * 1000 | date: "E" }}</div>
+      <img
+        src="http://openweathermap.org/img/wn/{{
+          otherDay.weather[0].icon
+        }}@2x.png"
+        alt="weather icon"
+        class="w-icon"
+      />
+      <div class="temp">
+        Night - {{ (otherDay.temp.night - 273.15).toFixed() }}&#176; C
+      </div>
+      <div class="temp">
+        Day - {{ (otherDay.temp.day - 273.15).toFixed() }}&#176; C
+      </div>
+    </div>
+  </div>
+  <!-- <div id="weatherForecast" class="weather-forecast">
     <div class="weather-forecast-item">
       <div class="day">Tue</div>
       <img
@@ -127,17 +155,5 @@
       <div class="temp">Night - 25.6&#176; C</div>
       <div class="temp">Day - 35.6&#176; C</div>
     </div>
-  </div>
-  <div id="weatherForecast" class="weather-forecast">
-    <div class="weather-forecast-item">
-      <div class="day">Tue</div>
-      <img
-        src="http://openweathermap.org/img/wn/10d@2x.png"
-        alt="weather icon"
-        class="w-icon"
-      />
-      <div class="temp">Night - 25.6&#176; C</div>
-      <div class="temp">Day - 35.6&#176; C</div>
-    </div>
-  </div>
+  </div> -->
 </div>
