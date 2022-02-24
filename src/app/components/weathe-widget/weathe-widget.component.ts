@@ -13,7 +13,8 @@ export class WeatheWidgetComponent implements OnInit {
   current: Current;
   timezone: Timezone;
   daily: [];
-  weather: any;
+  locationWeather: any;
+  cityWeather: any;
   dateTime: Date;
   otherDays: any;
 
@@ -28,28 +29,28 @@ export class WeatheWidgetComponent implements OnInit {
     timer(0, 1000).subscribe(() => {
       this.dateTime = new Date();
     });
-    this.getWeatherData();
+    this.getLocationWeatherData();
   }
 
-  getWeatherData() {
+  getLocationWeatherData() {
     navigator.geolocation.watchPosition((success) => {
       let { latitude, longitude } = success.coords;
       this.weatherService
-        .getWeatherData(latitude, longitude)
+        .getWeatherDataByCoords(latitude, longitude)
         .subscribe((response) => {
-          this.weather = response;
+          this.locationWeather = response;
           this.weatherDataLoaded = true;
-          this.getCurrentWeather();
-          this.getTimezone();
-          this.getDailyWeather();
+          this.getLocationCurrentWeather();
+          this.getLocationTimezone();
+          this.getLocationDailyWeather();
           console.log(response);
         });
     });
   }
 
-  getCurrentWeather() {
+  getLocationCurrentWeather() {
     let { humidity, pressure, sunrise, sunset, wind_speed, dt, weather, temp } =
-      this.weather.daily[0];
+      this.locationWeather.daily[0];
     this.current = {
       humidity,
       pressure,
@@ -63,14 +64,18 @@ export class WeatheWidgetComponent implements OnInit {
     this.currentDataLoaded = true;
   }
 
-  getTimezone() {
-    this.timezone = this.weather.timezone;
+  getLocationTimezone() {
+    this.timezone = this.locationWeather.timezone;
     this.timezoneDataLoaded = true;
   }
 
-  getDailyWeather() {
-    this.weather.daily.shift();
-    this.otherDays = this.weather.daily;
+  getLocationDailyWeather() {
+    this.locationWeather.daily.shift();
+    this.otherDays = this.locationWeather.daily;
     this.otherDaysDataLoaded = true;
+  }
+
+  getCity(city: string) {
+    this.weatherService.getWeatherDataByCityName(city).subscribe((data) => {});
   }
 }

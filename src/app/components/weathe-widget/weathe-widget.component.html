@@ -2,7 +2,7 @@
   <div class="current-info">
     <div class="date-container">
       <div id="time" class="time">
-        {{ dateTime | date: "h:mm"
+        {{ dateTime | date: "hh:mm"
         }}<span id="am-pm">{{ dateTime | date: "a" }}</span>
       </div>
       <div id="date" class="date">{{ dateTime | date: "EEEE, d MMMM" }}</div>
@@ -38,7 +38,7 @@
         {{ timezone }}
       </div>
       <div id="location" class="location">
-        {{ weather.lat }}N {{ weather.lon }}E
+        {{ locationWeather.lat }}N {{ locationWeather.lon }}E
       </div>
     </div>
   </div>
