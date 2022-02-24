@@ -14,7 +14,6 @@ export class WeatheWidgetComponent implements OnInit {
   timezone: Timezone;
   daily: [];
   locationWeather: any;
-  cityWeather: any;
   dateTime: Date;
   otherDays: any;
 
@@ -73,9 +72,5 @@ export class WeatheWidgetComponent implements OnInit {
     this.locationWeather.daily.shift();
     this.otherDays = this.locationWeather.daily;
     this.otherDaysDataLoaded = true;
-  }
-
-  getCity(city: string) {
-    this.weatherService.getWeatherDataByCityName(city).subscribe((data) => {});
   }
 }
